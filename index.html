@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fi'l Sentences — Egyptian Arabic Sentence Practice</title>
+<style>
+  :root{
+    --sand: #F2ECDD;
+    --sand-dim: #E7DFC9;
+    --ink: #2B2620;
+    --ink-soft: #6B6154;
+    --teal: #1F5C56;
+    --teal-deep: #163F3B;
+    --brass: #B9863B;
+    --rose: #B5473A;
+    --card: #FBF8F0;
+    --line: #D8CEB3;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --sand: #1C1A16; --sand-dim: #262319; --ink: #EDE6D6; --ink-soft: #A79E8C;
+      --teal: #3E8F82; --teal-deep: #2A6058; --brass: #D3A15C; --rose: #E08670;
+      --card: #242019; --line: #3A3428;
+    }
+  }
+  :root[data-theme="dark"]{
+    --sand: #1C1A16; --sand-dim: #262319; --ink: #EDE6D6; --ink-soft: #A79E8C;
+    --teal: #3E8F82; --teal-deep: #2A6058; --brass: #D3A15C; --rose: #E08670;
+    --card: #242019; --line: #3A3428;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--sand);
+    color:var(--ink);
+    font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding:28px 16px 60px;
+  }
+  .wrap{ width:100%; max-width:460px; }
+  h1{
+    font-family: Georgia, "Times New Roman", serif;
+    font-size:28px;
+    margin:0 0 6px;
+    color:var(--teal-deep);
+  }
+  .sub{ font-size:14px; color:var(--ink-soft); margin:0 0 18px; line-height:1.5; }
+  select, .toggle{
+    width:100%;
+    margin-bottom:12px;
+  }
+  select{
+    padding:11px 12px;
+    border-radius:10px;
+    border:1px solid var(--line);
+    background:var(--card);
+    color:var(--ink);
+    font-size:15px;
+    font-family:inherit;
+  }
+  .toggle{
+    display:flex;
+    background:var(--sand-dim);
+    border-radius:10px;
+    padding:3px;
+    border:1px solid var(--line);
+  }
+  .toggle button{
+    flex:1;
+    border:none;
+    background:transparent;
+    padding:9px 6px;
+    font-size:14px;
+    font-weight:600;
+    color:var(--ink-soft);
+    border-radius:8px;
+    cursor:pointer;
+    font-family:inherit;
+  }
+  .toggle button.active{ background:var(--teal); color:var(--sand); }
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:24px 20px;
+    margin-top:8px;
+  }
+  .label{ font-size:12px; color:var(--brass); font-weight:600; margin-bottom:6px; }
+  .english{ font-size:19px; margin-bottom:18px; line-height:1.4; min-height:52px; }
+  .masry{
+    font-size:19px;
+    font-family: Georgia, serif;
+    color:var(--teal-deep);
+    line-height:1.5;
+    padding:14px;
+    background:var(--sand-dim);
+    border-radius:10px;
+    display:none;
+  }
+  .masry.show{ display:block; }
+  .target-word{ color:var(--brass); font-weight:700; }
+  textarea{
+    width:100%;
+    min-height:70px;
+    padding:12px;
+    border-radius:10px;
+    border:1.5px solid var(--line);
+    font-size:16px;
+    font-family:inherit;
+    background:#fff0;
+    color:var(--ink);
+    resize:vertical;
+    margin-bottom:12px;
+  }
+  textarea.answer.correct{ border-color:var(--teal); background:rgba(31,92,86,0.08); }
+  textarea.answer.wrong{ border-color:var(--rose); background:rgba(181,71,58,0.08); }
+  button.primary{
+    width:100%;
+    padding:13px;
+    border-radius:10px;
+    border:none;
+    background:var(--teal);
+    color:var(--sand);
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    font-family:inherit;
+    margin-bottom:10px;
+  }
+  button.primary:disabled{ opacity:0.5; }
+  button.ghost{
+    width:100%;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid var(--line);
+    background:transparent;
+    color:var(--ink-soft);
+    font-size:14px;
+    cursor:pointer;
+    font-family:inherit;
+    margin-bottom:10px;
+  }
+  .self-grade{
+    display:flex;
+    gap:10px;
+    margin-top:6px;
+  }
+  .self-grade button{
+    flex:1;
+    padding:11px;
+    border-radius:10px;
+    border:1px solid var(--line);
+    background:var(--sand-dim);
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    font-family:inherit;
+    color:var(--ink);
+  }
+  .self-grade button.got-it{ color:var(--teal-deep); }
+  .self-grade button.missed{ color:var(--rose); }
+  .score{
+    display:flex;
+    justify-content:space-between;
+    font-size:13px;
+    color:var(--ink-soft);
+    margin-top:20px;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+  }
+  .score b{ color:var(--teal-deep); font-size:16px; }
+  .status{ font-size:13px; color:var(--ink-soft); text-align:center; margin-top:10px; min-height:18px; }
+  .feedback{ font-size:14px; font-weight:600; margin:10px 0; min-height:20px; text-align:center; }
+  .feedback.correct{ color:var(--teal); }
+  .feedback.wrong{ color:var(--rose); }
+  .word-chip{
+    padding:8px 12px;
+    border-radius:20px;
+    border:1px solid var(--line);
+    background:var(--sand-dim);
+    font-size:13px;
+    cursor:pointer;
+    font-family:inherit;
+    color:var(--ink);
+  }
+  .word-chip.saved{ background:var(--teal); color:var(--sand); border-color:var(--teal); }
+  .review-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:9px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .review-item:last-child{ border-bottom:none; }
+  .review-word{ font-weight:600; color:var(--teal-deep); }
+  .review-meaning{ color:var(--ink-soft); font-size:13px; margin-left:8px; }
+  .review-remove{
+    background:none; border:none; color:var(--rose); font-size:16px; cursor:pointer; padding:0 4px;
+  }
+  .glossary-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    padding:8px 10px;
+    background:var(--sand-dim);
+    border-radius:8px;
+    font-size:13px;
+  }
+  .glossary-word{ font-weight:600; }
+  .glossary-meaning{ color:var(--ink-soft); flex:1; margin-left:8px; }
+  .glossary-actions{ display:flex; gap:6px; }
+  .glossary-actions button{
+    border:1px solid var(--line);
+    background:transparent;
+    border-radius:14px;
+    padding:5px 10px;
+    font-size:12px;
+    cursor:pointer;
+    font-family:inherit;
+    color:var(--ink);
+  }
+  .glossary-actions button.done{ background:var(--teal); color:var(--sand); border-color:var(--teal); }
+  .glossary-actions button.flagged{ background:var(--rose); color:var(--sand); border-color:var(--rose); }
+  .unavailable{
+    text-align:center;
+    padding:40px 20px;
+    color:var(--ink-soft);
+    font-size:15px;
+    line-height:1.6;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Fi'l Sentences</h1>
+  <p class="sub">Live-generated Masry sentences built around the verb form you're practicing — unlimited variety, self-graded.</p>
+
+  <button class="ghost" id="vocabToggleBtn">Known vocabulary (<span id="vocabCount">0</span> words)</button>
+  <div class="card" id="vocabPanel" style="display:none; margin-bottom:12px;">
+    <div class="label">Words you already know</div>
+    <p style="font-size:13px; color:var(--ink-soft); margin-top:0;">
+      Sentences will only use these words (plus the verb being tested) — or stay as bare as
+      possible if none fit. Leave empty to keep sentences minimal by default.
+    </p>
+    <textarea id="vocabInput" placeholder="e.g. gawab, beit, madrasa, akl, mayya" style="min-height:60px;"></textarea>
+    <button class="primary" id="vocabSaveBtn">Save vocabulary</button>
+    <div class="status" id="vocabStatus"></div>
+  </div>
+
+  <div class="toggle" id="activityToggle" style="margin-bottom:12px;">
+    <button data-activity="sentences" class="active">Sentences</button>
+    <button data-activity="conjugate">Conjugate</button>
+    <button data-activity="meaning">Meaning</button>
+    <button data-activity="modal">Modal</button>
+  </div>
+
+  <div id="modalPanel" style="display:none; margin-bottom:12px;">
+    <div class="label" style="margin-bottom:6px;">Which modal(s)?</div>
+    <div id="modalCheckList" style="display:flex; flex-direction:column; gap:8px;"></div>
+  </div>
+
+  <div id="controlsArea">
+    <div class="toggle" id="tenseToggle">
+      <button data-tense="past" class="active">Past</button>
+      <button data-tense="present">Present</button>
+    </div>
+    <select id="verbSelect"></select>
+    <div class="toggle" id="practiceModeToggle">
+      <button data-practice-mode="free" class="active">Free</button>
+      <button data-practice-mode="pool">Pool (repeat until correct)</button>
+    </div>
+    <select id="poolSizeSelect" style="display:none;">
+      <option value="3">Pool of 3</option>
+      <option value="5" selected>Pool of 5</option>
+      <option value="8">Pool of 8</option>
+    </select>
+  </div>
+
+  <div class="status" id="poolStatus" style="display:none;"></div>
+
+  <div class="card" id="mainCard">
+    <div class="english" id="englishSentence">Tap "New sentence" to start.</div>
+
+    <textarea id="attemptInput" placeholder="type your attempt..."></textarea>
+
+    <button class="primary" id="showAnswerBtn" disabled>Show answer</button>
+
+    <div class="masry" id="masryAnswer"></div>
+
+    <div class="self-grade" id="selfGrade" style="display:none;">
+      <button class="got-it" id="gotItBtn">✓ Got it</button>
+      <button class="missed" id="missedBtn">✗ Missed it</button>
+    </div>
+
+    <button class="primary" id="checkBtn" style="display:none;">Check</button>
+    <div class="feedback" id="detFeedback"></div>
+    <button class="primary" id="continueBtn" style="display:none;">Continue →</button>
+
+    <div id="glossaryPicker" style="display:none; margin-top:14px;">
+      <div class="label">Words used in this sentence</div>
+      <div id="glossaryList" style="display:flex; flex-direction:column; gap:8px;"></div>
+    </div>
+  </div>
+
+  <button class="ghost" id="newSentenceBtn">New sentence →</button>
+  <button class="ghost" id="startPoolBtn" style="display:none;">Start pool →</button>
+  <div class="status" id="status"></div>
+
+  <div class="score">
+    <span>Session</span>
+    <span><b id="scoreCount">0</b> / <span id="totalCount">0</span></span>
+  </div>
+
+  <button class="ghost" id="reviewToggleBtn" style="margin-top:16px;">Review list (<span id="reviewCount">0</span>)</button>
+  <div class="card" id="reviewPanel" style="display:none; margin-top:8px;">
+    <button class="hint-toggle" id="studyReviewBtn" style="margin-bottom:10px;">Study this list →</button>
+    <div id="reviewList" style="font-size:14px;"></div>
+    <div id="reviewEmpty" style="color:var(--ink-soft); font-size:14px;">No words saved yet — mark a sentence "Missed it" to add words here.</div>
+  </div>
+
+  <div class="card" id="studyCard" style="display:none; margin-top:8px;">
+    <div class="toggle" id="studyDirectionToggle" style="margin-bottom:14px;">
+      <button data-direction="m2e" class="active">Masry → English</button>
+      <button data-direction="e2m">English → Masry</button>
+    </div>
+    <div class="label" id="studyPromptLabel">What does this mean?</div>
+    <div class="masry" style="display:block; font-size:22px; text-align:center; margin-bottom:14px;" id="studyWord"></div>
+    <input type="text" id="studyGuess" placeholder="type your guess (optional)..." style="width:100%; padding:11px; border-radius:10px; border:1.5px solid var(--line); font-size:15px; font-family:inherit; background:transparent; color:var(--ink); margin-bottom:12px;">
+    <button class="primary" id="studyShowBtn">Show meaning</button>
+    <div class="masry show" id="studyMeaning" style="display:none;"></div>
+    <div class="self-grade" id="studyGrade" style="display:none;">
+      <button class="got-it" id="studyGotItBtn">✓ Know it now</button>
+      <button class="missed" id="studyMissedBtn">✗ Still unsure</button>
+    </div>
+    <div style="display:flex; justify-content:space-between; margin-top:14px; flex-wrap:wrap; gap:8px;">
+      <button class="ghost" id="studyFlagBtn" style="width:auto; color:var(--brass);">⚠ flag as wrong</button>
+      <button class="ghost" id="studyRemoveBtn" style="width:auto; color:var(--rose);">✕ remove from list</button>
+      <button class="ghost" id="studyExitBtn" style="width:auto;">exit study</button>
+    </div>
+    <div id="studyFlagForm" style="display:none; margin-top:12px;">
+      <label style="display:flex; align-items:center; gap:6px; font-size:13px; color:var(--ink-soft); margin-bottom:10px;">
+        <input type="checkbox" id="studyNoExistCheck">
+        this isn't a real Masry word at all (invented)
+      </label>
+      <div class="label" id="studyCorrectLabel">What's the correct meaning? (optional)</div>
+      <input type="text" id="studyCorrectInput" placeholder="e.g. wisil fi el-mi'ad" style="width:100%; padding:11px; border-radius:10px; border:1.5px solid var(--line); font-size:14px; font-family:inherit; background:transparent; color:var(--ink); margin-bottom:10px;">
+      <button class="primary" id="studySaveFlagBtn">Save correction</button>
+    </div>
+    <div class="status" id="studyStatus"></div>
+  </div>
+
+  <button class="ghost" id="correctionsToggleBtn" style="margin-top:10px;">Flagged corrections (<span id="correctionsCount">0</span>)</button>
+  <div class="card" id="correctionsPanel" style="display:none; margin-top:8px;">
+    <div id="correctionsList" style="font-size:14px;"></div>
+    <div id="correctionsEmpty" style="color:var(--ink-soft); font-size:14px;">Nothing flagged yet.</div>
+  </div>
+</div>
+
+<script src="claude-shim.js"></script>
+<script>
+const verbs = [
+  { en: "to write", pastStem: "katab", presStem: "iktib" },
+  { en: "to drink", pastStem: "shirib", presStem: "ishrab" },
+  { en: "to eat",   pastStem: "akal",   presStem: "akol" },
+  { en: "to open",  pastStem: "fatah",  presStem: "iftah" },
+  { en: "to work",  pastStem: "shtaghal", presStem: "shtaghal" },
+  { en: "to understand", pastStem: "fihim", presStem: "ifham" },
+  { en: "to sit",   pastStem: "'a'ad", presStem: "'o'od" },
+  { en: "to go out", pastStem: "kharag", presStem: "ikhrog" },
+  { en: "to ask",   pastStem: "sa'al", presStem: "is'al" },
+  { en: "to enter", pastStem: "dakhal", presStem: "idkhol" },
+  { en: "to go down / get off", pastStem: "nizil", presStem: "inzil" },
+  { en: "to arrive", pastStem: "wisil", presStem: "iwsal" },
+  { en: "to do / make", pastStem: "'amal", presStem: "i'mil" },
+  { en: "to hear",  pastStem: "simi'", presStem: "isma'" },
+  { en: "to know",  pastStem: "'irif", presStem: "i'raf" },
+  { en: "to wear",  pastStem: "libis", presStem: "ilbis" },
+  { en: "to play",  pastStem: "li'ib", presStem: "il'ab" },
+  { en: "to live / reside", pastStem: "sakan", presStem: "iskun" },
+];
+
+const pronouns = [
+  { en: "I", code: "ana", pastSuf: "t", presPre: "ba" },
+  { en: "you (m.)", code: "enta", pastSuf: "t", presPre: "bti" },
+  { en: "you (f.)", code: "enti", pastSuf: "ti", presPre: "bti", presSuf: "i" },
+  { en: "he", code: "howa", pastSuf: "", presPre: "biy" },
+  { en: "she", code: "heya", pastSuf: "et", presPre: "bti" },
+  { en: "we", code: "ehna", pastSuf: "na", presPre: "bni" },
+  { en: "you (pl.)", code: "entoo", pastSuf: "too", presPre: "bti", presSuf: "oo" },
+  { en: "they", code: "homma", pastSuf: "oo", presPre: "biy", presSuf: "oo" },
+];
+
+function buildAnswer(verb, pron, tense){
+  if(tense === "past"){
+    return verb.pastStem + pron.pastSuf;
+  } else {
+    let word = pron.presPre + verb.presStem;
+    if(pron.presSuf) word += pron.presSuf;
+    return word;
+  }
+}
+
+// Bare present (no "bi-" habitual prefix) — used after lazem/momken/3awez/me7tag,
+// derived the same way the rest of this app derives present tense (strip leading "b").
+function barePresent(verb, pron){
+  let word = pron.presPre.slice(1) + verb.presStem;
+  if(pron.presSuf) word += pron.presSuf;
+  return word;
+}
+
+// Modal auxiliaries from lesson 16. Restricted to the 5 pronouns actually taught
+// in the slides (no plural participle forms were covered).
+const modals = [
+  { key: "lazem", label: "lazem (should/must)", en: "must", invariant: true, word: "lazem" },
+  { key: "momken", label: "momken (maybe/can)", en: "can", invariant: true, word: "momken" },
+  { key: "3ayez", label: "3awez/3awza (want to)", en: "want to",
+    forms: { ana: "3awez", enta: "3awez", enti: "3awza", heyya: "3awza", hwwa: "3awez" } },
+  { key: "me7tag", label: "me7tag/me7tagah (need to)", en: "need to",
+    forms: { ana: "me7tag", enta: "me7tag", enti: "me7tagah", heyya: "me7tagah", hwwa: "me7tag" } }
+];
+const modalPronounCodes = ["ana", "enta", "enti", "heya", "howa"];
+const modalPronouns = pronouns.filter(p => modalPronounCodes.includes(p.code));
+
+// Vocabulary from lesson 16 (shopping) — standalone words/phrases, not verbs,
+// so they get their own quiz rather than living in the verb-only Meaning mode.
+const vocabSets = {
+  shopping: {
+    label: "Shopping (lesson 16)",
+    words: [
+      { word: "bekam", meaning: "how much" },
+      { word: "anhy", meaning: "which (one)" },
+      { word: "fandem", meaning: "sir/madam" },
+      { word: "lon", meaning: "color" },
+      { word: "alwan", meaning: "colors" },
+      { word: "azra'", meaning: "blue" },
+      { word: "abyad", meaning: "white" },
+      { word: "aswad", meaning: "black" },
+      { word: "akhdar", meaning: "green" },
+      { word: "ghaly awy", meaning: "very expensive" },
+      { word: "rekhees", meaning: "cheap" },
+      { word: "we7esh awy", meaning: "very bad/ugly" },
+      { word: "haga tany", meaning: "anything else" },
+      { word: "el-hesab", meaning: "the bill" },
+      { word: "etfadaly", meaning: "here you go / go ahead" },
+      { word: "shokran", meaning: "thank you" },
+      { word: "law samahti", meaning: "please" },
+      { word: "se'ro", meaning: "its price" },
+      { word: "fo'", meaning: "above" },
+      { word: "taht", meaning: "under" },
+      { word: "gamb", meaning: "next to" },
+      { word: "ma'as", meaning: "size" },
+      { word: "ma'asat", meaning: "sizes" },
+      { word: "wase3", meaning: "wide" },
+      { word: "was3een", meaning: "wide (plural)" },
+      { word: "daya'", meaning: "skinny/tight" },
+      { word: "daya'een", meaning: "skinny/tight (plural)" },
+      { word: "bantalon", meaning: "pants" },
+      { word: "bantalonat", meaning: "pants (plural)" },
+      { word: "amees", meaning: "shirt" },
+      { word: "omsan", meaning: "shirts" },
+      { word: "blouza", meaning: "blouse" },
+      { word: "blouzat", meaning: "blouses" },
+      { word: "teshert", meaning: "t-shirt" },
+      { word: "teshertat", meaning: "t-shirts" },
+      { word: "short", meaning: "shorts" },
+      { word: "shortat", meaning: "shorts (plural)" },
+      { word: "fostan", meaning: "dress" },
+      { word: "fasateen", meaning: "dresses" },
+      { word: "jeebah", meaning: "skirt" },
+      { word: "jebat", meaning: "skirts" },
+      { word: "jaket", meaning: "jacket" },
+      { word: "jawaket", meaning: "jackets" },
+      { word: "gazmah", meaning: "shoe" },
+      { word: "gezam", meaning: "shoes" },
+      { word: "shantah", meaning: "bag" },
+      { word: "shonat", meaning: "bags" },
+      { word: "7ezam", meaning: "belt" },
+      { word: "7ezemah", meaning: "belts" },
+      { word: "nadarah", meaning: "glasses" },
+      { word: "nadarat", meaning: "glasses (plural)" },
+      { word: "keber", meaning: "big" },
+      { word: "taweel", meaning: "long" }
+    ]
+  }
+};
+
+function buildModalAnswer(modal, verb, pron){
+  const word = modal.invariant ? modal.word : modal.forms[pron.code === "heya" ? "heyya" : (pron.code === "howa" ? "hwwa" : pron.code)];
+  return word + " " + barePresent(verb, pron);
+}
+
+function normalize(s){
+  return s.trim().toLowerCase()
+    .replace(/[\s'’‘`´-]/g, "")
+    .replace(/(.)\1+/g, "$1"); // collapse doubled letters (aa->a, ll->l, etc.)
+}
+
+function editDistance(a, b){
+  const dp = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array(b.length).fill(0)]);
+  for(let j = 0; j <= b.length; j++) dp[0][j] = j;
+  for(let i = 1; i <= a.length; i++){
+    for(let j = 1; j <= b.length; j++){
+      dp[i][j] = a[i-1] === b[j-1]
+        ? dp[i-1][j-1]
+        : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+    }
+  }
+  return dp[a.length][b.length];
+}
+
+function meaningAlternates(en){
+  const parts = en.split("/").map(s => s.trim().replace(/^to\s+/i, "").toLowerCase());
+  const full = en.trim().replace(/^to\s+/i, "").toLowerCase();
+  return [...new Set([full, ...parts])];
+}
+
+const verbSelect = document.getElementById("verbSelect");
+const randomOpt = document.createElement("option");
+randomOpt.value = "random";
+randomOpt.textContent = "🎲 random verb";
+randomOpt.selected = true;
+verbSelect.appendChild(randomOpt);
+verbs.forEach((v, i) => {
+  const opt = document.createElement("option");
+  opt.value = i;
+  opt.textContent = v.en + " (" + v.pastStem + ")";
+  verbSelect.appendChild(opt);
+});
+verbSelect.addEventListener("change", () => {
+  if(activity !== "sentences"){
+    lastDetId = null;
+    advanceDeterministic();
+  }
+});
+
+let tense = "past";
+let current = null; // { verb, pron, target }
+let score = 0, total = 0;
+let sample = null;
+let knownVocab = [];
+let practiceMode = "free"; // "free" | "pool"
+let pool = [];
+let activity = "sentences"; // "sentences" | "conjugate" | "meaning" | "modal"
+let selectedModals = new Set(modals.map(m => m.key));
+let lastDetId = null;
+let detCurrent = null; // { kind, verb, pron, modal, target/answer, english }
+let poolIndex = 0;
+let masteredCount = 0;
+
+async function loadKnownVocab(){
+  if(!dbHandle) return;
+  try{
+    const snap = await dbHandle.doc("knownVocab/list").get();
+    knownVocab = (snap.exists && snap.data().words) ? [...snap.data().words] : [];
+  } catch(e){
+    knownVocab = [];
+  }
+  document.getElementById("vocabCount").textContent = knownVocab.length;
+  document.getElementById("vocabInput").value = knownVocab.join(", ");
+}
+
+// One-time merge of the shopping vocab list into Known Vocabulary, so
+// Sentences mode actually uses these words. Tracked in a separate doc so
+// it never re-adds words you later remove on purpose.
+async function mergeShoppingVocabOnce(){
+  if(!dbHandle) return;
+  try{
+    const flagSnap = await dbHandle.doc("meta/shoppingVocabMerged").get();
+    if(flagSnap.exists && flagSnap.data().done) return;
+
+    const shoppingWords = vocabSets.shopping.words.map(w => w.word);
+    const merged = [...new Set([...knownVocab, ...shoppingWords])];
+    knownVocab = merged;
+    document.getElementById("vocabCount").textContent = knownVocab.length;
+    document.getElementById("vocabInput").value = knownVocab.join(", ");
+
+    await dbHandle.doc("knownVocab/list").set({ words: merged });
+    await dbHandle.doc("meta/shoppingVocabMerged").set({ done: true });
+  } catch(e){ /* best-effort — not worth surfacing a failure for a one-time seed */ }
+}
+
+async function saveKnownVocab(){
+  const raw = document.getElementById("vocabInput").value;
+  knownVocab = raw.split(",").map(w => w.trim()).filter(w => w.length > 0);
+  document.getElementById("vocabCount").textContent = knownVocab.length;
+  const status = document.getElementById("vocabStatus");
+  if(!dbHandle){
+    status.textContent = "Storage isn't available in this view — changes won't persist.";
+    return;
+  }
+  try{
+    await dbHandle.doc("knownVocab/list").set({ words: knownVocab });
+    status.textContent = "Saved.";
+  } catch(e){
+    status.textContent = "Couldn't save — " + (e.message || e.code || "unknown error") + ".";
+  }
+}
+
+document.getElementById("vocabToggleBtn").addEventListener("click", () => {
+  const panel = document.getElementById("vocabPanel");
+  panel.style.display = panel.style.display === "none" ? "block" : "none";
+});
+document.getElementById("vocabSaveBtn").addEventListener("click", () => {
+  saveKnownVocab();
+});
+
+document.querySelectorAll("#tenseToggle button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll("#tenseToggle button").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    tense = btn.dataset.tense;
+    if(activity !== "sentences"){
+      lastDetId = null;
+      advanceDeterministic();
+    }
+  });
+});
+
+function pickVerb(){
+  if(verbSelect.value === "random") return verbs[Math.floor(Math.random() * verbs.length)];
+  return verbs[parseInt(verbSelect.value)];
+}
+
+function resetCardForLoading(showThinking){
+  if(showThinking !== false){
+    document.getElementById("englishSentence").textContent = "Thinking... (may take a few seconds)";
+  }
+  document.getElementById("masryAnswer").classList.remove("show");
+  document.getElementById("masryAnswer").textContent = "";
+  document.getElementById("attemptInput").value = "";
+  document.getElementById("showAnswerBtn").disabled = true;
+  document.getElementById("selfGrade").style.display = "none";
+  document.getElementById("status").textContent = "";
+  document.getElementById("glossaryPicker").style.display = "none";
+  document.getElementById("glossaryList").innerHTML = "";
+}
+
+let recentContentWords = []; // rolling window, used to steer the model away from repeating itself
+
+function buildPrompt(verb, pron, target){
+  const vocabInstruction = knownVocab.length > 0
+    ? "Include natural context — an object, place, time word, or short phrase — to make the " +
+      "sentence feel real and varied, not just bare subject + verb every time. You may use one or " +
+      "two of these known words if they fit — " + knownVocab.join(", ") + " — or other simple, " +
+      "common Cairene vocabulary if that tells a better, more natural sentence. The ONLY hard rule: " +
+      "whatever you include must make genuine real-world sense with this specific verb (never force " +
+      "an unnatural pairing like \"wore a house\") — if you can't find a sensible way to add context, " +
+      "a bare sentence is the fallback, not the goal."
+    : "Include natural context — an object, place, time word, or short phrase — to make the " +
+      "sentence feel real and varied, not just bare subject + verb every time. Use simple, common " +
+      "Cairene vocabulary. The ONLY hard rule: whatever you include must make genuine real-world " +
+      "sense with this specific verb (never force an unnatural pairing like \"wore a house\") — if " +
+      "you can't find a sensible way to add context, a bare sentence is the fallback, not the goal.";
+
+  const varietyInstruction = recentContentWords.length > 0
+    ? " You've used these words/phrases in recent sentences — do NOT reuse any of them, pick " +
+      "something meaningfully different this time: " + recentContentWords.join(", ") + "."
+    : "";
+
+  return "Write ONE short, natural sentence in CAIRENE Egyptian Arabic (Masry dialect) specifically " +
+    "— not Gulf, Levantine, or Upper Egyptian/Sa'idi vocabulary. " +
+    "Use only words a native Cairo speaker would use day-to-day. For example: \"what\" is \"eh\" " +
+    "(not \"'eesh\", which is Gulf/Sa'idi), \"today\" is \"enaharda\" (not \"dilwa'ti\", which means " +
+    "\"now\"). If unsure whether a word is specifically Cairene, prefer a simpler, more common " +
+    "alternative you're confident about. " +
+    "Transliterate in Latin letters using this exact scheme: apostrophe (') for the glottal " +
+    "stop / ayin, 'kh' for the خ sound, 'gh' for the غ sound, plain 'h' for ح. " +
+    "The sentence MUST use the exact word \"" + target + "\" as the conjugated form of the verb " +
+    "meaning \"" + verb.en + "\" for the subject \"" + pron.en + "\" in the " + tense + " tense — " +
+    "do not alter, re-conjugate, or respell that word. " + vocabInstruction + varietyInstruction + " " +
+    "The focus of this exercise is verb conjugation. When genuinely uncertain whether an object " +
+    "sounds natural with this verb, the bare sentence is the SAFER and CORRECT choice — a boring " +
+    "but valid sentence beats an interesting but wrong one every time. " +
+    "CRITICAL: the English translation must be precise and complete — every word in the Masry " +
+    "sentence must be reflected accurately in the English, and vice versa. Do not add extra " +
+    "concepts (like a time word such as \"today\") to either version unless they appear in both, " +
+    "correctly matched. " +
+    "List any additional content word you used (there may be none) with a short, accurate English gloss. " +
+    "Reply with ONLY a JSON object: {\"masry\": \"<the sentence>\", \"english\": \"<precise English " +
+    "translation matching the Masry exactly>\", \"glossary\": [{\"word\": \"<word as it appears in " +
+    "the sentence>\", \"meaning\": \"<short English meaning>\"}]}";
+}
+
+// Generates one sentence slot: { verb, pron, target, masry, english, glossary }
+// Throws the raw sample error on failure — caller decides how to surface it.
+// Known non-Cairene words the model sometimes slips into otherwise-correct
+// sentences despite the prompt instructions. Fixed deterministically here
+// rather than relying solely on the model to get it right every time.
+const dialectFixes = [
+  { wrong: /'?eesh\b/gi, right: "eh" }, // 'eesh (Gulf/Sa'idi) -> eh (Cairene) for "what"
+];
+
+function applyDialectFixes(text){
+  let fixed = text;
+  dialectFixes.forEach(({ wrong, right }) => {
+    fixed = fixed.replace(wrong, right);
+  });
+  return fixed;
+}
+
+function comboKey(verb, pron){
+  return tense + "|" + verb.pastStem + "|" + pron.code;
+}
+
+function pickVerbPron(excludeCombos){
+  // Try a handful of times to avoid a combo already sitting elsewhere in the pool.
+  for(let i = 0; i < 15; i++){
+    const verb = pickVerb();
+    const pron = pronouns[Math.floor(Math.random() * pronouns.length)];
+    if(!excludeCombos || !excludeCombos.includes(comboKey(verb, pron))){
+      return { verb, pron };
+    }
+  }
+  // Fall back to whatever we've got if the pool/verb selection is too small to avoid it.
+  return { verb: pickVerb(), pron: pronouns[Math.floor(Math.random() * pronouns.length)] };
+}
+
+async function generateSentenceData(excludeCombos){
+  const { verb, pron } = pickVerbPron(excludeCombos);
+  const target = buildAnswer(verb, pron, tense);
+  const prompt = buildPrompt(verb, pron, target);
+  const data = await sample.json(prompt, { modelTier: "default" });
+  if(!data || !data.masry || !data.english) throw { code: "invalid_json", message: "unexpected response shape" };
+  const glossary = Array.isArray(data.glossary) ? data.glossary : [];
+  const fixedGlossary = glossary.map(g => ({ ...g, word: applyDialectFixes(g.word) }));
+
+  // Remember what got used so the next call is steered away from repeating it.
+  fixedGlossary.forEach(g => {
+    if(g.word && !recentContentWords.includes(g.word)) recentContentWords.push(g.word);
+  });
+  while(recentContentWords.length > 6) recentContentWords.shift();
+
+  return {
+    verb, pron, target,
+    masry: applyDialectFixes(data.masry),
+    english: data.english,
+    glossary: fixedGlossary
+  };
+}
+
+function statusForError(err){
+  if(err.code === "not_granted") return "Allow Claude access for this artifact to use sentence practice.";
+  if(err.code === "rate_limited") return "Too many requests — wait a moment and try again.";
+  return "Something went wrong (" + (err.code || "error") + "). Try again.";
+}
+
+let lastFreeCombo = null;
+
+async function newSentence(){
+  if(!sample){
+    document.getElementById("status").textContent = "Sentence generation isn't available in this view.";
+    return;
+  }
+  resetCardForLoading();
+  document.getElementById("glossaryPicker").style.display = "none";
+  document.getElementById("glossaryList").innerHTML = "";
+  const btn = document.getElementById("newSentenceBtn");
+  btn.disabled = true;
+
+  try{
+    const excludeCombos = lastFreeCombo ? [lastFreeCombo] : [];
+    const slot = await generateSentenceData(excludeCombos);
+    lastFreeCombo = comboKey(slot.verb, slot.pron);
+    current = slot;
+    renderSlot(slot);
+  } catch(err){
+    document.getElementById("englishSentence").textContent = "Couldn't generate a sentence.";
+    document.getElementById("status").textContent = statusForError(err);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function renderSlot(slot){
+  // Strip any gender/number tag the model may have already added on its own
+  // (the prompt mentions e.g. "you (f.)" as context, and it sometimes echoes
+  // that into the translation) before applying exactly one ourselves.
+  let english = slot.english.replace(/\byou\b\s*\((?:m\.?|f\.?|pl\.?|plural)\)/i, "you");
+  if(slot.pron.code === "enta"){
+    english = english.replace(/\byou\b/i, m => m + " (m.)");
+  } else if(slot.pron.code === "enti"){
+    english = english.replace(/\byou\b/i, m => m + " (f.)");
+  } else if(slot.pron.code === "entoo"){
+    english = english.replace(/\byou\b/i, m => m + " (plural)");
+  }
+  document.getElementById("englishSentence").textContent = english;
+  const highlighted = slot.masry.replace(
+    slot.target, "<span class='target-word'>" + slot.target + "</span>"
+  );
+  document.getElementById("masryAnswer").innerHTML = highlighted;
+  document.getElementById("showAnswerBtn").disabled = false;
+}
+
+document.getElementById("newSentenceBtn").addEventListener("click", newSentence);
+
+// ---- Deterministic modes: Conjugate, Meaning, Modal ----
+// Unlike Sentences mode, these never call the AI — the correct answer is
+// computed locally, so grading is instant and can't be wrong or flaky.
+
+function pronounEnglishLabel(pron){
+  if(pron.code === "enta") return "you (m.)";
+  if(pron.code === "enti") return "you (f.)";
+  if(pron.code === "entoo") return "you (plural)";
+  return pron.en;
+}
+
+function detId(kind, extra){
+  return "det-" + kind + "|" + extra;
+}
+
+function newConjugateRound(){
+  let pron, verb, id;
+  let tries = 0;
+  do{
+    verb = pickVerb();
+    pron = pronouns[Math.floor(Math.random() * pronouns.length)];
+    id = detId("conj", tense + "|" + verb.pastStem + "|" + pron.code);
+    tries++;
+  } while(id === lastDetId && tries < 15);
+  lastDetId = id;
+
+  const target = buildAnswer(verb, pron, tense);
+  detCurrent = { kind: "conjugate", verb, pron, answer: target };
+
+  document.getElementById("englishSentence").textContent =
+    pronounEnglishLabel(pron) + " — " + verb.en + " (" + tense + ")";
+  resetDetUI();
+}
+
+function newMeaningRound(){
+  let verb, id;
+  let tries = 0;
+  do{
+    verb = pickVerb();
+    id = detId("meaning", verb.pastStem);
+    tries++;
+  } while(id === lastDetId && tries < 15);
+  lastDetId = id;
+
+  detCurrent = { kind: "meaning", verb };
+  document.getElementById("englishSentence").textContent = "What does \"" + verb.pastStem + "\" mean?";
+  resetDetUI();
+}
+
+function newModalRound(){
+  const activeModals = modals.filter(m => selectedModals.has(m.key));
+  const pool = activeModals.length ? activeModals : modals;
+
+  let verb, pron, modal, id;
+  let tries = 0;
+  do{
+    verb = pickVerb();
+    pron = modalPronouns[Math.floor(Math.random() * modalPronouns.length)];
+    modal = pool[Math.floor(Math.random() * pool.length)];
+    id = detId("modal", modal.key + "|" + verb.pastStem + "|" + pron.code);
+    tries++;
+  } while(id === lastDetId && tries < 15);
+  lastDetId = id;
+  if(!pron) pron = modalPronouns[0]; // defensive fallback, should never be needed
+
+  const target = buildModalAnswer(modal, verb, pron);
+  detCurrent = { kind: "modal", verb, pron, modal, answer: target };
+
+  // English subject-verb agreement: "need"/"want" take -s for he/she,
+  // but "can"/"must" (true modal auxiliaries) never conjugate.
+  const isThirdSingular = pron.code === "howa" || pron.code === "heya";
+  const englishModal = (isThirdSingular && !modal.invariant) ? modal.en.replace(/^(\w+)/, "$1s") : modal.en;
+
+  document.getElementById("englishSentence").textContent =
+    pronounEnglishLabel(pron) + " " + englishModal + " " + verb.en.replace(/^to\s+/i, "");
+  resetDetUI();
+}
+
+function resetDetUI(){
+  document.getElementById("attemptInput").value = "";
+  document.getElementById("attemptInput").className = "";
+  document.getElementById("detFeedback").textContent = "";
+  document.getElementById("detFeedback").className = "feedback";
+  document.getElementById("continueBtn").style.display = "none";
+  document.getElementById("checkBtn").disabled = false;
+  document.getElementById("attemptInput").focus();
+}
+
+let currentVocabSet = "shopping";
+
+function newVocabRound(){
+  const words = vocabSets[currentVocabSet].words;
+  let entry, id;
+  let tries = 0;
+  do{
+    entry = words[Math.floor(Math.random() * words.length)];
+    id = detId("vocab", currentVocabSet + "|" + entry.word);
+    tries++;
+  } while(id === lastDetId && tries < 15 && words.length > 1);
+  lastDetId = id;
+
+  detCurrent = { kind: "vocab", entry };
+  document.getElementById("englishSentence").textContent = "What does \"" + entry.word + "\" mean?";
+  resetDetUI();
+}
+
+function advanceDeterministic(){
+  if(activity === "conjugate") newConjugateRound();
+  else if(activity === "meaning") newMeaningRound();
+  else if(activity === "modal") newModalRound();
+  else if(activity === "vocab") newVocabRound();
+}
+
+function checkDeterministicAnswer(){
+  if(document.getElementById("checkBtn").disabled) return; // already answered, mid-transition
+
+  const input = document.getElementById("attemptInput");
+  const feedback = document.getElementById("detFeedback");
+  const userRaw = input.value.trim();
+
+  let exact = false, closeEnough = false, correctAnswerText = "";
+
+  if(detCurrent.kind === "meaning"){
+    const user = userRaw.toLowerCase().replace(/^to\s+/i, "");
+    const alternates = meaningAlternates(detCurrent.verb.en);
+    correctAnswerText = detCurrent.verb.en;
+    exact = userRaw.length > 0 && alternates.includes(user);
+    if(!exact && userRaw.length > 0){
+      for(const alt of alternates){
+        const tolerance = alt.length >= 5 ? 1 : 0;
+        if(editDistance(user, alt) <= tolerance){ closeEnough = true; break; }
+      }
+    }
+  } else if(detCurrent.kind === "vocab"){
+    const user = userRaw.toLowerCase();
+    const alternates = meaningAlternates(detCurrent.entry.meaning);
+    correctAnswerText = detCurrent.entry.meaning;
+    exact = userRaw.length > 0 && alternates.includes(user);
+    if(!exact && userRaw.length > 0){
+      for(const alt of alternates){
+        const tolerance = alt.length >= 5 ? 1 : 0;
+        if(editDistance(user, alt) <= tolerance){ closeEnough = true; break; }
+      }
+    }
+  } else {
+    const user = normalize(userRaw);
+    const correctAns = normalize(detCurrent.answer);
+    correctAnswerText = detCurrent.answer;
+    exact = user === correctAns && user.length > 0;
+    if(!exact && user.length > 0){
+      const distance = editDistance(user, correctAns);
+      const tolerance = correctAns.length >= 5 ? 1 : 0;
+      closeEnough = distance <= tolerance;
+    }
+  }
+
+  total++;
+  if(exact || closeEnough){
+    score++;
+    input.className = "answer correct";
+    feedback.textContent = exact ? "Correct — " + correctAnswerText : "Close enough — " + correctAnswerText;
+    feedback.className = "feedback correct";
+    document.getElementById("checkBtn").disabled = true;
+    if(exact){
+      setTimeout(() => {
+        try{
+          advanceDeterministic();
+        } catch(err){
+          document.getElementById("detFeedback").textContent =
+            "Got stuck advancing (" + (err.message || err) + ") — tap Check again or switch verbs to reset.";
+          document.getElementById("checkBtn").disabled = false;
+        }
+      }, 900);
+    } else {
+      document.getElementById("continueBtn").style.display = "block";
+    }
+  } else {
+    input.className = "answer wrong";
+    feedback.textContent = "Not quite — it's " + correctAnswerText;
+    feedback.className = "feedback wrong";
+  }
+  document.getElementById("scoreCount").textContent = score;
+  document.getElementById("totalCount").textContent = total;
+}
+
+document.getElementById("checkBtn").addEventListener("click", checkDeterministicAnswer);
+document.getElementById("continueBtn").addEventListener("click", advanceDeterministic);
+document.getElementById("attemptInput").addEventListener("keydown", (e) => {
+  if(e.key === "Enter" && activity !== "sentences") checkDeterministicAnswer();
+});
+
+function renderModalCheckList(){
+  const list = document.getElementById("modalCheckList");
+  list.innerHTML = "";
+  modals.forEach(m => {
+    const label = document.createElement("label");
+    label.style.cssText = "display:flex; align-items:center; gap:8px; font-size:14px;";
+    const cb = document.createElement("input");
+    cb.type = "checkbox";
+    cb.checked = selectedModals.has(m.key);
+    cb.addEventListener("change", () => {
+      if(cb.checked) selectedModals.add(m.key); else selectedModals.delete(m.key);
+    });
+    const span = document.createElement("span");
+    span.textContent = m.label;
+    label.appendChild(cb);
+    label.appendChild(span);
+    list.appendChild(label);
+  });
+}
+renderModalCheckList();
+
+function setActivityUI(){
+  const isSentences = activity === "sentences";
+  const isConjugate = activity === "conjugate";
+  const isModal = activity === "modal";
+  const isMeaning = activity === "meaning";
+  const isVocab = activity === "vocab";
+
+  // Sentence-mode-only controls
+  document.getElementById("practiceModeToggle").style.display = isSentences ? "flex" : "none";
+  document.getElementById("poolSizeSelect").style.display = (isSentences && practiceMode === "pool") ? "block" : "none";
+  document.getElementById("newSentenceBtn").style.display = (isSentences && practiceMode !== "pool") ? "block" : "none";
+  document.getElementById("startPoolBtn").style.display = (isSentences && practiceMode === "pool") ? "block" : "none";
+  document.getElementById("poolStatus").style.display = (isSentences && practiceMode === "pool") ? "block" : "none";
+  document.getElementById("showAnswerBtn").style.display = isSentences ? "block" : "none";
+  document.getElementById("selfGrade").style.display = "none"; // always reset; sentence flow re-shows it itself
+
+  // Deterministic-mode controls
+  document.getElementById("checkBtn").style.display = isSentences ? "none" : "block";
+  document.getElementById("continueBtn").style.display = "none";
+  document.getElementById("detFeedback").textContent = "";
+  document.getElementById("masryAnswer").classList.remove("show");
+  document.getElementById("masryAnswer").textContent = "";
+  document.getElementById("glossaryPicker").style.display = "none";
+
+  // Tense doesn't apply to Meaning or Vocab mode
+  document.getElementById("tenseToggle").style.display = (isSentences || isConjugate) ? "flex" : "none";
+
+  // Verb select doesn't apply to Vocab mode (fixed word list, not verbs)
+  document.getElementById("verbSelect").style.display = isVocab ? "none" : "block";
+
+  // Modal checklist only for Modal mode
+  document.getElementById("modalPanel").style.display = isModal ? "block" : "none";
+
+  document.getElementById("attemptInput").value = "";
+  document.getElementById("attemptInput").className = "";
+
+  if(isSentences){
+    document.getElementById("englishSentence").textContent = "Tap \"New sentence\" to start.";
+  } else {
+    advanceDeterministic();
+  }
+}
+
+document.querySelectorAll("#activityToggle button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll("#activityToggle button").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    activity = btn.dataset.activity;
+    lastDetId = null;
+    setActivityUI();
+  });
+});
+
+document.querySelectorAll("#practiceModeToggle button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll("#practiceModeToggle button").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    practiceMode = btn.dataset.practiceMode;
+    const isPool = practiceMode === "pool";
+    document.getElementById("poolSizeSelect").style.display = isPool ? "block" : "none";
+    document.getElementById("newSentenceBtn").style.display = isPool ? "none" : "block";
+    document.getElementById("startPoolBtn").style.display = isPool ? "block" : "none";
+    document.getElementById("poolStatus").style.display = isPool ? "block" : "none";
+    if(isPool){
+      document.getElementById("englishSentence").textContent = "Tap \"Start pool\" to begin.";
+      document.getElementById("masryAnswer").classList.remove("show");
+      document.getElementById("showAnswerBtn").disabled = true;
+    } else {
+      document.getElementById("englishSentence").textContent = "Tap \"New sentence\" to start.";
+    }
+  });
+});
+
+async function savePoolState(){
+  if(!dbHandle) return;
+  try{
+    await dbHandle.doc("poolState/current").set({
+      pool, poolIndex, masteredCount, tense,
+      poolSize: pool.length
+    });
+  } catch(e){ /* best-effort — pool still works in-session even if this fails */ }
+}
+
+async function loadPoolState(){
+  if(!dbHandle) return null;
+  try{
+    const snap = await dbHandle.doc("poolState/current").get();
+    if(!snap.exists) return null;
+    const data = snap.data();
+    if(!data.pool || data.pool.length === 0) return null;
+    return data;
+  } catch(e){ return null; }
+}
+
+async function startPool(){
+  if(!sample) return;
+  const size = parseInt(document.getElementById("poolSizeSelect").value);
+  const startBtn = document.getElementById("startPoolBtn");
+  startBtn.disabled = true;
+  pool = [];
+  masteredCount = 0;
+
+  for(let i = 0; i < size; i++){
+    document.getElementById("poolStatus").textContent = "Building pool… (" + (i + 1) + "/" + size + ")";
+    try{
+      const excludeCombos = pool.map(s => comboKey(s.verb, s.pron));
+      const slot = await generateSentenceData(excludeCombos);
+      pool.push(slot);
+    } catch(err){
+      document.getElementById("poolStatus").textContent = statusForError(err);
+      startBtn.disabled = false;
+      return;
+    }
+  }
+
+  poolIndex = 0;
+  updatePoolStatus();
+  showCurrentPoolSlot();
+  startBtn.disabled = false;
+  savePoolState();
+}
+
+function updatePoolStatus(){
+  document.getElementById("poolStatus").textContent =
+    "Pool: " + pool.length + " active · mastered " + masteredCount + " so far";
+}
+
+function showCurrentPoolSlot(){
+  resetCardForLoading(false);
+  current = pool[poolIndex];
+  renderSlot(current);
+}
+
+async function advancePool(gotIt){
+  let genError = null;
+  if(gotIt){
+    masteredCount++;
+    // Replace this slot with a fresh sentence, keeping pool size fixed.
+    updatePoolStatus();
+    document.getElementById("poolStatus").textContent = "Nice — swapping in a new sentence…";
+    try{
+      const excludeCombos = pool
+        .filter((_, i) => i !== poolIndex)
+        .map(s => comboKey(s.verb, s.pron));
+      const fresh = await generateSentenceData(excludeCombos);
+      pool[poolIndex] = fresh;
+    } catch(err){
+      // Don't get stuck showing the same sentence forever — advance anyway,
+      // just without a fresh replacement for this slot this time.
+      genError = statusForError(err);
+    }
+  }
+  poolIndex = (poolIndex + 1) % pool.length;
+  showCurrentPoolSlot(); // this clears #status, so any error message must be set after it
+  if(genError){
+    document.getElementById("poolStatus").textContent = genError;
+    document.getElementById("status").textContent = "Couldn't generate a replacement sentence: " + genError;
+  } else {
+    updatePoolStatus();
+  }
+  savePoolState();
+}
+
+document.getElementById("startPoolBtn").addEventListener("click", startPool);
+
+document.getElementById("showAnswerBtn").addEventListener("click", () => {
+  document.getElementById("masryAnswer").classList.add("show");
+  document.getElementById("selfGrade").style.display = "flex";
+  document.getElementById("showAnswerBtn").disabled = true;
+  if(current.glossary && current.glossary.length){
+    renderGlossaryPicker();
+    document.getElementById("glossaryPicker").style.display = "block";
+  }
+});
+
+function gradeSelf(gotIt){
+  total++;
+  if(gotIt) score++;
+  document.getElementById("scoreCount").textContent = score;
+  document.getElementById("totalCount").textContent = total;
+  document.getElementById("selfGrade").style.display = "none";
+
+  if(practiceMode === "pool" && pool.length > 0){
+    advancePool(gotIt);
+  } else {
+    newSentence();
+  }
+}
+document.getElementById("gotItBtn").addEventListener("click", () => gradeSelf(true));
+document.getElementById("missedBtn").addEventListener("click", () => gradeSelf(false));
+
+function renderGlossaryPicker(){
+  const container = document.getElementById("glossaryList");
+  container.innerHTML = "";
+  current.glossary.forEach(entry => {
+    const row = document.createElement("div");
+    row.className = "glossary-row";
+    row.style.flexWrap = "wrap";
+
+    const text = document.createElement("span");
+    text.innerHTML = "<span class='glossary-word'>" + entry.word + "</span>" +
+      "<span class='glossary-meaning'>" + entry.meaning + "</span>";
+
+    const actions = document.createElement("div");
+    actions.className = "glossary-actions";
+
+    const errorMsg = document.createElement("div");
+    errorMsg.style.cssText = "width:100%; font-size:12px; color:var(--rose); display:none;";
+
+    const reviewBtn = document.createElement("button");
+    reviewBtn.textContent = "⚑ review";
+    if(reviewWords.some(w => w.word === entry.word)) reviewBtn.classList.add("flagged");
+
+    const knowBtn = document.createElement("button");
+    knowBtn.textContent = "✓ know it";
+    if(knownVocab.includes(entry.word)) knowBtn.classList.add("done");
+    knowBtn.addEventListener("click", async () => {
+      knowBtn.classList.add("done"); // instant feedback
+      reviewBtn.classList.remove("flagged"); // knowing it means it no longer needs review
+      errorMsg.style.display = "none";
+      try{
+        await addKnownWord(entry.word);
+        await removeReviewWord(entry.word);
+      } catch(e){
+        knowBtn.classList.remove("done");
+        errorMsg.textContent = "Couldn't save — " + (e.message || e.code || "unknown error");
+        errorMsg.style.display = "block";
+      }
+    });
+
+    reviewBtn.addEventListener("click", async () => {
+      reviewBtn.classList.add("flagged"); // instant feedback
+      errorMsg.style.display = "none";
+      try{
+        await addReviewWord(entry.word, entry.meaning);
+      } catch(e){
+        reviewBtn.classList.remove("flagged");
+        errorMsg.textContent = "Couldn't save — " + (e.message || e.code || "unknown error");
+        errorMsg.style.display = "block";
+      }
+    });
+
+    actions.appendChild(knowBtn);
+    actions.appendChild(reviewBtn);
+    row.appendChild(text);
+    row.appendChild(actions);
+    row.appendChild(errorMsg);
+    container.appendChild(row);
+  });
+}
+
+async function addKnownWord(word){
+  if(knownVocab.includes(word)) return;
+  knownVocab.push(word);
+  document.getElementById("vocabCount").textContent = knownVocab.length;
+  document.getElementById("vocabInput").value = knownVocab.join(", ");
+  if(!dbHandle) return;
+  await dbHandle.doc("knownVocab/list").set({ words: knownVocab });
+}
+
+let reviewWords = [];
+let dbHandle = null;
+
+async function loadReviewWords(){
+  if(!dbHandle) return;
+  try{
+    const snap = await dbHandle.doc("reviewWords/list").get();
+    reviewWords = (snap.exists && snap.data().words) ? [...snap.data().words] : [];
+  } catch(e){
+    reviewWords = [];
+  }
+  renderReviewList();
+}
+
+async function saveReviewWords(){
+  if(!dbHandle) return;
+  await dbHandle.doc("reviewWords/list").set({ words: reviewWords });
+}
+
+async function addReviewWord(word, meaning){
+  if(reviewWords.some(w => w.word === word)) return;
+  reviewWords.push({ word, meaning, addedAt: new Date().toISOString() });
+  renderReviewList();
+  await saveReviewWords();
+}
+
+async function removeReviewWord(word){
+  reviewWords = reviewWords.filter(w => w.word !== word);
+  await saveReviewWords();
+  renderReviewList();
+}
+
+// ---- Flagged corrections log (mistranslations caught and reported) ----
+let corrections = [];
+
+async function loadCorrections(){
+  if(!dbHandle) return;
+  try{
+    const snap = await dbHandle.doc("corrections/log").get();
+    corrections = (snap.exists && snap.data().items) ? [...snap.data().items] : [];
+  } catch(e){
+    corrections = [];
+  }
+  renderCorrections();
+}
+
+async function saveCorrections(){
+  if(!dbHandle) return;
+  await dbHandle.doc("corrections/log").set({ items: corrections });
+}
+
+async function flagCorrection(word, wrongMeaning, correctMeaning, wordDoesntExist){
+  corrections.unshift({
+    word, wrongMeaning,
+    correctMeaning: correctMeaning || null,
+    wordDoesntExist: !!wordDoesntExist,
+    flaggedAt: new Date().toISOString()
+  });
+  while(corrections.length > 50) corrections.pop(); // keep the log from growing unbounded
+  renderCorrections();
+  // A confirmed-wrong entry shouldn't stay in the active review list.
+  await removeReviewWord(word);
+  try{
+    await saveCorrections();
+  } catch(e){
+    document.getElementById("status").textContent = "Flagged locally, but couldn't save the log (" + (e.message || e.code || "unknown error") + ").";
+  }
+}
+
+function renderCorrections(){
+  document.getElementById("correctionsCount").textContent = corrections.length;
+  const list = document.getElementById("correctionsList");
+  const empty = document.getElementById("correctionsEmpty");
+  list.innerHTML = "";
+  if(corrections.length === 0){
+    empty.style.display = "block";
+    return;
+  }
+  empty.style.display = "none";
+  corrections.forEach(c => {
+    const row = document.createElement("div");
+    row.className = "review-item";
+    row.style.flexDirection = "column";
+    row.style.alignItems = "flex-start";
+    row.innerHTML =
+      "<span class='review-word'>" + c.word + "</span>" +
+      (c.wordDoesntExist
+        ? "<span style='color:var(--rose); font-size:13px;'>⚠ not a real Masry word — invented</span>"
+        : "<span style='color:var(--rose); font-size:13px;'>wrong: " + c.wrongMeaning + "</span>" +
+          (c.correctMeaning ? "<span style='color:var(--teal-deep); font-size:13px;'>correct: " + c.correctMeaning + "</span>" : ""));
+    list.appendChild(row);
+  });
+}
+
+document.getElementById("correctionsToggleBtn").addEventListener("click", () => {
+  const panel = document.getElementById("correctionsPanel");
+  panel.style.display = panel.style.display === "none" ? "block" : "none";
+});
+
+function renderReviewList(){
+  document.getElementById("reviewCount").textContent = reviewWords.length;
+  const list = document.getElementById("reviewList");
+  const empty = document.getElementById("reviewEmpty");
+  list.innerHTML = "";
+  if(reviewWords.length === 0){
+    empty.style.display = "block";
+    return;
+  }
+  empty.style.display = "none";
+  reviewWords.forEach(w => {
+    const row = document.createElement("div");
+    row.className = "review-item";
+    row.style.flexWrap = "wrap";
+    const left = document.createElement("span");
+    left.innerHTML = "<span class='review-word'>" + w.word + "</span>" +
+      "<span class='review-meaning'>" + w.meaning + "</span>";
+    const btnGroup = document.createElement("span");
+
+    const inlineForm = document.createElement("div");
+    inlineForm.style.cssText = "display:none; width:100%; margin-top:8px;";
+
+    const noExistLabel = document.createElement("label");
+    noExistLabel.style.cssText = "display:flex; align-items:center; gap:6px; font-size:12px; color:var(--ink-soft); margin-bottom:8px;";
+    const noExistCheck = document.createElement("input");
+    noExistCheck.type = "checkbox";
+    noExistLabel.appendChild(noExistCheck);
+    noExistLabel.appendChild(document.createTextNode("this isn't a real Masry word at all (invented)"));
+
+    const correctInput = document.createElement("input");
+    correctInput.type = "text";
+    correctInput.placeholder = "correct meaning (optional)...";
+    correctInput.style.cssText = "width:100%; padding:9px; border-radius:8px; border:1.5px solid var(--line); font-size:13px; font-family:inherit; background:transparent; color:var(--ink); margin-bottom:8px;";
+    noExistCheck.addEventListener("change", () => {
+      correctInput.style.display = noExistCheck.checked ? "none" : "block";
+    });
+    const saveFlagBtn = document.createElement("button");
+    saveFlagBtn.className = "rerecord";
+    saveFlagBtn.textContent = "save correction";
+    saveFlagBtn.addEventListener("click", async () => {
+      await flagCorrection(w.word, w.meaning, correctInput.value.trim(), noExistCheck.checked);
+    });
+    inlineForm.appendChild(noExistLabel);
+    inlineForm.appendChild(correctInput);
+    inlineForm.appendChild(saveFlagBtn);
+
+    const flagBtn = document.createElement("button");
+    flagBtn.className = "review-remove";
+    flagBtn.style.color = "var(--brass)";
+    flagBtn.textContent = "⚠";
+    flagBtn.title = "flag as wrong";
+    flagBtn.addEventListener("click", () => {
+      inlineForm.style.display = inlineForm.style.display === "none" ? "block" : "none";
+    });
+    const removeBtn = document.createElement("button");
+    removeBtn.className = "review-remove";
+    removeBtn.textContent = "✕";
+    removeBtn.addEventListener("click", () => removeReviewWord(w.word));
+    btnGroup.appendChild(flagBtn);
+    btnGroup.appendChild(removeBtn);
+    row.appendChild(left);
+    row.appendChild(btnGroup);
+    row.appendChild(inlineForm);
+    list.appendChild(row);
+  });
+}
+
+document.getElementById("reviewToggleBtn").addEventListener("click", () => {
+  const panel = document.getElementById("reviewPanel");
+  panel.style.display = panel.style.display === "none" ? "block" : "none";
+});
+
+// ---- Study mode for the review list ----
+let studyWord = null;
+let lastStudyWord = null;
+let studyDirection = "m2e"; // "m2e" (Masry -> English) | "e2m" (English -> Masry)
+
+function pickStudyWord(){
+  if(reviewWords.length === 0) return null;
+  if(reviewWords.length === 1) return reviewWords[0];
+  let candidates = reviewWords.filter(w => w.word !== lastStudyWord);
+  return candidates[Math.floor(Math.random() * candidates.length)];
+}
+
+function showStudyCard(){
+  document.getElementById("reviewPanel").style.display = "none";
+  document.getElementById("studyCard").style.display = "block";
+  nextStudyWord();
+}
+
+function nextStudyWord(){
+  const status = document.getElementById("studyStatus");
+  status.textContent = "";
+  document.getElementById("studyFlagForm").style.display = "none";
+  studyWord = pickStudyWord();
+  if(!studyWord){
+    document.getElementById("studyWord").textContent = "Review list is empty!";
+    document.getElementById("studyGuess").style.display = "none";
+    document.getElementById("studyShowBtn").style.display = "none";
+    document.getElementById("studyMeaning").style.display = "none";
+    document.getElementById("studyGrade").style.display = "none";
+    document.getElementById("studyRemoveBtn").style.display = "none";
+    return;
+  }
+  lastStudyWord = studyWord.word;
+  const isM2E = studyDirection === "m2e";
+  document.getElementById("studyPromptLabel").textContent = isM2E ? "What does this mean?" : "How do you say this in Masry?";
+  document.getElementById("studyWord").textContent = isM2E ? studyWord.word : studyWord.meaning;
+  document.getElementById("studyGuess").placeholder = isM2E ? "type your guess (optional)..." : "type the Masry word (optional)...";
+  document.getElementById("studyGuess").value = "";
+  document.getElementById("studyGuess").style.display = "block";
+  document.getElementById("studyShowBtn").style.display = "block";
+  document.getElementById("studyShowBtn").disabled = false;
+  document.getElementById("studyMeaning").style.display = "none";
+  document.getElementById("studyMeaning").classList.remove("show");
+  document.getElementById("studyGrade").style.display = "none";
+  document.getElementById("studyRemoveBtn").style.display = "inline";
+}
+
+document.getElementById("studyReviewBtn").addEventListener("click", showStudyCard);
+
+document.querySelectorAll("#studyDirectionToggle button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll("#studyDirectionToggle button").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    studyDirection = btn.dataset.direction;
+    lastStudyWord = null;
+    nextStudyWord();
+  });
+});
+
+document.getElementById("studyShowBtn").addEventListener("click", () => {
+  const isM2E = studyDirection === "m2e";
+  document.getElementById("studyMeaning").textContent = isM2E ? studyWord.meaning : studyWord.word;
+  document.getElementById("studyMeaning").style.display = "block";
+  document.getElementById("studyMeaning").classList.add("show");
+  document.getElementById("studyGrade").style.display = "flex";
+  document.getElementById("studyShowBtn").disabled = true;
+});
+
+document.getElementById("studyGotItBtn").addEventListener("click", () => {
+  nextStudyWord();
+});
+document.getElementById("studyMissedBtn").addEventListener("click", () => {
+  nextStudyWord();
+});
+
+document.getElementById("studyRemoveBtn").addEventListener("click", async () => {
+  if(!studyWord) return;
+  const word = studyWord.word;
+  await removeReviewWord(word);
+  document.getElementById("studyStatus").textContent = "Removed \"" + word + "\" from the list.";
+  nextStudyWord();
+});
+
+document.getElementById("studyFlagBtn").addEventListener("click", () => {
+  document.getElementById("studyCorrectInput").value = "";
+  document.getElementById("studyNoExistCheck").checked = false;
+  document.getElementById("studyCorrectInput").style.display = "block";
+  document.getElementById("studyCorrectLabel").style.display = "block";
+  document.getElementById("studyFlagForm").style.display = "block";
+});
+
+document.getElementById("studyNoExistCheck").addEventListener("change", (e) => {
+  const show = !e.target.checked;
+  document.getElementById("studyCorrectInput").style.display = show ? "block" : "none";
+  document.getElementById("studyCorrectLabel").style.display = show ? "block" : "none";
+});
+
+document.getElementById("studySaveFlagBtn").addEventListener("click", async () => {
+  if(!studyWord) return;
+  const correct = document.getElementById("studyCorrectInput").value.trim();
+  const noExist = document.getElementById("studyNoExistCheck").checked;
+  const word = studyWord.word;
+  const wrongMeaning = studyWord.meaning;
+  document.getElementById("studyFlagForm").style.display = "none";
+  await flagCorrection(word, wrongMeaning, correct, noExist);
+  document.getElementById("studyStatus").textContent = "Flagged \"" + word + "\" and removed it from the list.";
+  nextStudyWord();
+});
+
+document.getElementById("studyExitBtn").addEventListener("click", () => {
+  document.getElementById("studyCard").style.display = "none";
+  document.getElementById("reviewPanel").style.display = "block";
+});
+
+
+(async () => {
+  sample = await claude.use("sample");
+  dbHandle = await claude.use("db");
+  if(dbHandle){
+    loadReviewWords();
+    await loadKnownVocab();
+    await mergeShoppingVocabOnce();
+    loadCorrections();
+  }
+
+  if(!sample){
+    // Sentences mode needs live generation, but Conjugate/Meaning/Modal are
+    // fully deterministic and don't — so only disable what actually needs it.
+    document.querySelector('#activityToggle button[data-activity="sentences"]').disabled = true;
+    document.querySelector('#activityToggle button[data-activity="sentences"]').title =
+      "Needs to run inside the Claude app or claude.ai";
+    document.querySelector('#activityToggle button[data-activity="conjugate"]').click();
+    return;
+  }
+
+  const savedPool = dbHandle ? await loadPoolState() : null;
+  if(savedPool){
+    pool = savedPool.pool;
+    poolIndex = savedPool.poolIndex;
+    masteredCount = savedPool.masteredCount;
+    tense = savedPool.tense;
+    practiceMode = "pool";
+
+    document.querySelectorAll("#practiceModeToggle button").forEach(b => {
+      b.classList.toggle("active", b.dataset.practiceMode === "pool");
+    });
+    document.querySelectorAll("#tenseToggle button").forEach(b => {
+      b.classList.toggle("active", b.dataset.tense === tense);
+    });
+    document.getElementById("poolSizeSelect").style.display = "block";
+    document.getElementById("poolSizeSelect").value = String(savedPool.poolSize);
+    document.getElementById("newSentenceBtn").style.display = "none";
+    document.getElementById("startPoolBtn").style.display = "block";
+    document.getElementById("poolStatus").style.display = "block";
+
+    updatePoolStatus();
+    showCurrentPoolSlot();
+  } else {
+    newSentence();
+  }
+})();
+</script>
+</body>
+</html>
